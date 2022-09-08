@@ -3,16 +3,19 @@ PKG nginx nextcloud-php82 nextcloud-calendar-php82 nextcloud-contacts-php82 next
 #CP root /
 
 CMD mkdr -p /www/certificates 
-CMD mkdir -p /usr/local/etc/git_config
+CMD mkdir -p /usr/local/etc/git_config/nextcloud
 
 MOUNT /usr/ports usr/ports nullfs ro 0 0 
 MOUNT /werzel/certificates www/certificates nullfs ro 0 0
 MOUNT /werzel/nextcloud usr/local/www/nextcloud/data nullfs rw 0 0
-MOUNT /werzel/server_config usr/local/etc/git_config nullfs ro 0 0
+MOUNT /werzel/server_config/php usr/local/etc/git_config/php nullfs ro 0 0
+MOUNT /werzel/server_config/nextcloud usr/local/etc/git_config/nextcloud nullfs ro 0 0
 
 # Link Configurations to /usr/local/etc/ from /usr/local/etc/git_config/*/
 CMD rm -rf /usr/local/www/nextcloud/config/config.php
 CMD ln -s /usr/local/www/nextcloud/config/config.php /usr/local/etc/git_config/nextcloud/config.php
+CMD ln -s /usr/local/etc/nginx/sites.d/nextcloud.conf /usr/local/etc/git_config/nginx/nextcloud.conf
+CMD ln -s /usr/local/etc/php/sites.conf/nextcloud.conf /usr/local/etc/git_config/php/nextcloud.conf
 
 SYSRC php_fpm_enable=YES
 SYSRC nginx_enable=YES
