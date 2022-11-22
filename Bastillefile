@@ -1,4 +1,4 @@
-PKG nginx nextcloud-php82 nextcloud-calendar-php82 nextcloud-contacts-php82 nextcloud-deck-php82 nextcloud-mail-php82
+PKG nginx htop nextcloud-php82 nextcloud-calendar-php82 nextcloud-contacts-php82 nextcloud-deck-php82 nextcloud-mail-php82
 
 #CP root /
 
