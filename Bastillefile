@@ -16,7 +16,7 @@ CMD rm -rf /usr/local/etc/nginx/nginx.conf
 CMD ln -s /usr/local/etc/git_config/nginx/nextcloud.conf /usr/local/etc/nginx/nginx.conf
 CMD rm -rf /usr/local/www/nextcloud/config/config.php
 CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.php 
-CMD ln -s /usr/local/etc/git_config/php/nextcloud.conf /usr/local/etc/php/sites.conf/nextcloud.conf 
+CMD ln -s /usr/local/etc/git_config/php/nextcloud.conf /usr/local/etc/php-fpm.d/nextcloud.conf
 
 #Create additional Dirs
 CMD mkdir -p /www/vhosts
