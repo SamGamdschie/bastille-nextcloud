@@ -4,10 +4,13 @@ PKG nginx htop
 PKG nextcloud-php${php-version} nextcloud-calendar-php${php-version} nextcloud-contacts-php${php-version} nextcloud-deck-php${php-version} nextcloud-mail-php${php-version}
 
 CMD mkdir -p /www/certificates 
+CMD mkdir -p /usr/local/etc/git_config/nginx
+CMD mkdir -p /usr/local/etc/git_config/php
 CMD mkdir -p /usr/local/etc/git_config/nextcloud
 
 MOUNT /werzel/certificates www/certificates nullfs ro 0 0
 MOUNT /werzel/nextcloud usr/local/www/nextcloud/data nullfs rw 0 0
+MOUNT /werzel/server_config/php usr/local/etc/git_config/php nullfs ro 0 0
 MOUNT /werzel/server_config/php usr/local/etc/git_config/php nullfs ro 0 0
 MOUNT /werzel/server_config/nextcloud usr/local/etc/git_config/nextcloud nullfs ro 0 0
 
