@@ -21,9 +21,11 @@ CMD rm -rf /usr/local/www/nextcloud/config/config.php
 CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.php 
 CMD ln -s /usr/local/etc/git_config/php/nextcloud.conf /usr/local/etc/php-fpm.d/nextcloud.conf
 
-#Create additional Dirs
+#Create additional Dirs for TMP / Session
 CMD mkdir -p /www/vhosts
-CMD mkdir -p /www/vhosts/nextcloud
+CMD mkdir -p /www/vhosts/tmp
+CMD mkdir -p /www/vhosts/sessions
+CMD mkdir -p /www/vhosts/upload_tmp
 CMD chown -R www:www /www/vhosts
 
 SYSRC php_fpm_enable=YES
