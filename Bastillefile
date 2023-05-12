@@ -37,10 +37,10 @@ SYSRC nginx_enable=YES
 
 # Use sendmail just to forward to postfix
 CMD cd /etc/mail && make
-CMD sed '/^FEATURE.*dnl/d' `hostname`.submit.mc >> submit.mc.new
-CMD echo 'FEATURE(`msp'"'"', `[${mailip}]'"'"')dnl' >> submit.mc.new
-CMD mv `hostname`.submit.mc `hostname`.submit.mc.old
-CMD mv submit.mc.new `hostname`.submit.mc
+CMD cd /etc/mail && sed '/^FEATURE.*dnl/d' `hostname`.submit.mc >> submit.mc.new
+CMD cd /etc/mail && echo 'FEATURE(`msp'"'"', `[${mailip}]'"'"')dnl' >> submit.mc.new
+CMD cd /etc/mail && mv `hostname`.submit.mc `hostname`.submit.mc.old
+CMD cd /etc/mail && mv submit.mc.new `hostname`.submit.mc
 CMD cd /etc/mail && make install
 SYSRC sendmail_enable=NO
 SYSRC sendmail_msp_queue_enable=YES
