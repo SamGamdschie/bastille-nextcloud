@@ -1,27 +1,31 @@
 ARG php-version=81
+ARG mailip=10.0.0.10
 
 PKG nginx htop 
 PKG nextcloud-php${php-version} nextcloud-calendar-php${php-version} nextcloud-contacts-php${php-version} nextcloud-deck-php${php-version} nextcloud-mail-php${php-version}
+PKG php{php-version}-pecl-imagick
 
 CMD mkdir -p /www/certificates 
+CMD mkdir -p /www/data 
 CMD mkdir -p /usr/local/etc/git_config/nginx
 CMD mkdir -p /usr/local/etc/git_config/php
 CMD mkdir -p /usr/local/etc/git_config/nextcloud
 
 MOUNT /werzel/certificates www/certificates nullfs ro 0 0
-MOUNT /werzel/nextcloud usr/local/www/nextcloud/data nullfs rw 0 0
+MOUNT /werzel/nextcloud www/data nullfs rw 0 0
 MOUNT /werzel/server_config/nginx usr/local/etc/git_config/nginx nullfs ro 0 0
 MOUNT /werzel/server_config/php usr/local/etc/git_config/php nullfs ro 0 0
 MOUNT /werzel/server_config/nextcloud usr/local/etc/git_config/nextcloud nullfs ro 0 0
 
 # Link Configurations
 CMD rm -rf /usr/local/etc/nginx/nginx.conf
+CMD ln -s /usr/local/etc/git_config/rspamd/local.d /usr/local/etc/rspamd/local.d 
 CMD ln -s /usr/local/etc/git_config/nginx/nextcloud.conf /usr/local/etc/nginx/nginx.conf
 CMD rm -rf /usr/local/www/nextcloud/config/config.php
 CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.php 
 CMD ln -s /usr/local/etc/git_config/php/nextcloud.conf /usr/local/etc/php-fpm.d/nextcloud.conf
 
-#Create additional Dirs for TMP / Session
+# Create additional Dirs for TMP / Session
 CMD mkdir -p /www/vhosts
 CMD mkdir -p /www/vhosts/tmp
 CMD mkdir -p /www/vhosts/sessions
@@ -30,6 +34,19 @@ CMD chown -R www:www /www/vhosts
 
 SYSRC php_fpm_enable=YES
 SYSRC nginx_enable=YES
+
+# Use sendmail just to forward to postfix
+CMD cd /etc/mail && make
+CMD sed '/^FEATURE.*dnl/d' `hostname`.submit.mc >> submit.mc.new
+CMD echo 'FEATURE(`msp'"'"', `[${mailip}]'"'"')dnl' >> submit.mc.new
+CMD mv `hostname`.submit.mc `hostname`.submit.mc.old
+CMD mv submit.mc.new `hostname`.submit.mc
+CMD cd /etc/mail && make install
+SYSRC sendmail_enable=NO
+SYSRC sendmail_msp_queue_enable=YES
+SYSRC sendmail_outbound_enable=NO
+SYSRC submit_enable=YES
+CMD cd /etc/mail && make stop && make start
 
 SERVICE php-fpm start
 SERVICE nginx start
