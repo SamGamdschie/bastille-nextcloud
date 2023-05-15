@@ -1,4 +1,4 @@
-ARG php-version=81
+ARG php-version=82
 ARG mailip=10.0.0.10
 
 PKG nginx htop 
@@ -12,16 +12,15 @@ CMD mkdir -p /usr/local/etc/git_config/php
 CMD mkdir -p /usr/local/etc/git_config/nextcloud
 
 MOUNT /werzel/certificates www/certificates nullfs ro 0 0
-MOUNT /werzel/nextcloud www/data nullfs rw 0 0
+MOUNT /werzel/nextcloud www/nextcloud nullfs rw 0 0
 MOUNT /werzel/server_config/nginx usr/local/etc/git_config/nginx nullfs ro 0 0
 MOUNT /werzel/server_config/php usr/local/etc/git_config/php nullfs ro 0 0
 MOUNT /werzel/server_config/nextcloud usr/local/etc/git_config/nextcloud nullfs ro 0 0
 
 # Link Configurations
 CMD rm -rf /usr/local/etc/nginx/nginx.conf
-CMD ln -s /usr/local/etc/git_config/rspamd/local.d /usr/local/etc/rspamd/local.d 
-CMD ln -s /usr/local/etc/git_config/nginx/nextcloud.conf /usr/local/etc/nginx/nginx.conf
 CMD rm -rf /usr/local/www/nextcloud/config/config.php
+CMD ln -s /usr/local/etc/git_config/nginx/nextcloud.conf /usr/local/etc/nginx/nginx.conf
 CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.php 
 CMD ln -s /usr/local/etc/git_config/php/nextcloud.conf /usr/local/etc/php-fpm.d/nextcloud.conf
 
@@ -31,6 +30,7 @@ CMD mkdir -p /www/vhosts/tmp
 CMD mkdir -p /www/vhosts/sessions
 CMD mkdir -p /www/vhosts/upload_tmp
 CMD chown -R www:www /www/vhosts
+CMD chown -R www:www /www/nextcloud
 
 SYSRC php_fpm_enable=YES
 SYSRC nginx_enable=YES
