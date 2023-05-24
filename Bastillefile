@@ -17,11 +17,13 @@ MOUNT /werzel/server_config/nginx usr/local/etc/git_config/nginx nullfs ro 0 0
 MOUNT /werzel/server_config/php usr/local/etc/git_config/php nullfs ro 0 0
 MOUNT /werzel/server_config/nextcloud usr/local/etc/git_config/nextcloud nullfs ro 0 0
 
-# Link Configurations
+# Link Configurations (and copy config.php for update reasons)
 CMD rm -rf /usr/local/etc/nginx/nginx.conf
 CMD rm -rf /usr/local/www/nextcloud/config/config.php
 CMD ln -s /usr/local/etc/git_config/nginx/nextcloud.conf /usr/local/etc/nginx/nginx.conf
-CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.php 
+CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.git.php 
+CMD cp /usr/local/www/nextcloud/config/config.git.php /usr/local/www/nextcloud/config/config.php 
+CMD chown www:www /usr/local/www/nextcloud/config/config.php 
 CMD ln -s /usr/local/etc/git_config/php/nextcloud.conf /usr/local/etc/php-fpm.d/nextcloud.conf
 
 # Create additional Dirs for TMP / Session
@@ -50,3 +52,5 @@ CMD cd /etc/mail && make stop && make start
 
 SERVICE php-fpm start
 SERVICE nginx start
+
+## php80 php80-pdo php80-bcmath php80-bz2 php80-ctype php80-curl php80-dom php80-exif php80-fileinfo php80-filter php80-gd php80-gmp php80-iconv php80-intl php80-ldap php80-mbstring php80-opcache php80-pcntl php80-pdo_mysql php80-pecl-APCu php80-posix php80-session php80-simplexml php80-sysvsem php80-xml php80-xmlreader php80-xmlwriter php80-xsl php80-zip php80-zlib php80-pecl-redis php80-pecl-imagick-3.7.0
