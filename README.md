@@ -17,3 +17,9 @@ In future maybe some default configuration will be made available; currently tr 
 
 ## Arguments
 This template can receive arguments: `php-version` to specify another version for PHP. `mailip` for the internal mail server (MTA) - jail will use sendmail to forward to mailip.
+
+## Entering Nextcloud Console
+You can use ```su```to enter console as user ```www```:
+```sh
+su -m www -c 'php occ <command>'
+```
