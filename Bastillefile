@@ -38,19 +38,6 @@ CMD chown -R www:www /www/nextcloud
 SYSRC php_fpm_enable=YES
 SYSRC nginx_enable=YES
 
-# Use sendmail just to forward to postfix
-CMD cd /etc/mail && make
-CMD cd /etc/mail && sed '/^FEATURE.*dnl/d' `hostname`.submit.mc >> submit.mc.new
-CMD cd /etc/mail && echo 'FEATURE(`msp'"'"', `[${mailip}]'"'"')dnl' >> submit.mc.new
-CMD cd /etc/mail && mv `hostname`.submit.mc `hostname`.submit.mc.old
-CMD cd /etc/mail && mv submit.mc.new `hostname`.submit.mc
-CMD cd /etc/mail && make install
-SYSRC sendmail_enable=NO
-SYSRC sendmail_msp_queue_enable=YES
-SYSRC sendmail_outbound_enable=NO
-SYSRC submit_enable=YES
-CMD cd /etc/mail && make stop && make start
-
 SERVICE php-fpm start
 SERVICE nginx start
 
