@@ -23,3 +23,15 @@ You can use ```su```to enter console as user ```www```:
 ```sh
 su -m www -c 'php occ <command>'
 ```
+### Updater
+```sh
+su -m www -c 'php --define apc.enable_cli=1 /usr/local/www/nextcloud/updater/updater.phar'
+```
+
+```sh
+su -m www -c 'php  --define apc.enable_cli=1 /usr/local/www/nextcloud/occ upgrade'
+```
+
+```sh
+su -m www -c 'php  --define apc.enable_cli=1 occ maintenance:mode --off'
+```
