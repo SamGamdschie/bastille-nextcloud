@@ -9,6 +9,7 @@ PKG nextcloud-php${php-version} nextcloud-calendar-php${php-version} nextcloud-c
 
 CMD mkdir -p /www/certificates 
 CMD mkdir -p /www/nextcloud 
+CMD mkdir -p /www/paperless 
 CMD mkdir -p /usr/local/etc/git_config/nginx
 CMD mkdir -p /usr/local/etc/git_config/php
 CMD mkdir -p /usr/local/etc/git_config/nextcloud
@@ -18,6 +19,7 @@ MOUNT /werzel/nextcloud www/nextcloud nullfs rw 0 0
 MOUNT /werzel/server_config/nginx usr/local/etc/git_config/nginx nullfs ro 0 0
 MOUNT /werzel/server_config/php usr/local/etc/git_config/php nullfs ro 0 0
 MOUNT /werzel/server_config/nextcloud usr/local/etc/git_config/nextcloud nullfs ro 0 0
+MOUNT /werzel/paperless/media/documents/originals www/paperless nullfs ro 0 0
 
 # Link Configurations (and copy config.php for update reasons)
 CMD rm -rf /usr/local/etc/nginx/nginx.conf
