@@ -32,6 +32,12 @@ su -m www -c 'php --define apc.enable_cli=1 /usr/local/www/nextcloud/updater/upd
 su -m www -c 'php  --define apc.enable_cli=1 /usr/local/www/nextcloud/occ upgrade'
 ```
 
+### Add some DB indices after upgrade
 ```sh
-su -m www -c 'php  --define apc.enable_cli=1 occ maintenance:mode --off'
+su -m www -c 'php  --define apc.enable_cli=1 /usr/local/www/nextcloud/occ db:add-missing-indices'
+```
+
+### Ende Maintenance Mode manually
+```sh
+su -m www -c 'php  --define apc.enable_cli=1 /usr/local/www/nextcloud/occ maintenance:mode --off'
 ```
