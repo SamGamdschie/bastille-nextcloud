@@ -39,7 +39,7 @@ su -m www -c 'php  --define apc.enable_cli=1 /usr/local/www/nextcloud/occ db:add
 
 ### Maintenance Repair usefule after upgrade
 ```sh
-su -m www -c 'php  --define apc.enable_cli=1 /usr/local/www/nextcloud/occ maintenance:repair'
+su -m www -c 'php  --define apc.enable_cli=1 /usr/local/www/nextcloud/occ maintenance:repair  --include-expensive'
 ```
 
 ### Ende Maintenance Mode manually
