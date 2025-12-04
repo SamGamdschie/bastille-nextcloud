@@ -1,15 +1,14 @@
-ARG php-version=81
+ARG php-version=82
 ARG mailip=10.0.0.10
 
-PKG nginx htop 
-PKG php${php-version} php${php-version}-extensions 
+PKG nginx htop
+PKG php${php-version} php${php-version}-extensions
 PKG php${php-version}-pecl-APCu php${php-version}-pecl-redis
 PKG nextcloud-php${php-version} nextcloud-calendar-php${php-version} nextcloud-contacts-php${php-version} nextcloud-deck-php${php-version} nextcloud-mail-php${php-version}
-#PKG php${php-version}-pecl-imagick-im7 #not available in PH8.0
 
-CMD mkdir -p /www/certificates 
-CMD mkdir -p /www/nextcloud 
-CMD mkdir -p /www/paperless 
+CMD mkdir -p /www/certificates
+CMD mkdir -p /www/nextcloud
+CMD mkdir -p /www/paperless
 CMD mkdir -p /usr/local/etc/git_config/nginx
 CMD mkdir -p /usr/local/etc/git_config/php
 CMD mkdir -p /usr/local/etc/git_config/nextcloud
@@ -25,9 +24,9 @@ MOUNT /werzel/paperless/media/documents/originals www/paperless nullfs ro 0 0
 CMD rm -rf /usr/local/etc/nginx/nginx.conf
 CMD rm -rf /usr/local/www/nextcloud/config/config.php
 CMD ln -s /usr/local/etc/git_config/nginx/nextcloud.conf /usr/local/etc/nginx/nginx.conf
-CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.git.php 
-CMD cp /usr/local/www/nextcloud/config/config.git.php /usr/local/www/nextcloud/config/config.php 
-CMD chown www:www /usr/local/www/nextcloud/config/config.php 
+CMD ln -s /usr/local/etc/git_config/nextcloud/config.php /usr/local/www/nextcloud/config/config.git.php
+CMD cp /usr/local/www/nextcloud/config/config.git.php /usr/local/www/nextcloud/config/config.php
+CMD chown www:www /usr/local/www/nextcloud/config/config.php
 CMD ln -s /usr/local/etc/git_config/php/nextcloud.conf /usr/local/etc/php-fpm.d/nextcloud.conf
 
 # Create additional Dirs for TMP / Session
